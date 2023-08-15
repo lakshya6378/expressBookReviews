@@ -34,43 +34,55 @@ public_users.post("/register", (req,res) => {
 
 
 // Get the book list available in the shop
-public_users.get('/',function (req, res) {
-  //Write your code here
-  return res.status(300).json(JSON.stringify(books));
-});
+public_users.get('/',async (req, res) => {
+    try {
+      return res.status(200).json(books);
+    } catch (error) {
+      return res.status(500).json({ message: "Internal server error" });
+    }
+  });
 
 // Get book details based on ISBN
-public_users.get('/isbn/:isbn',function (req, res) {
-  //Write your code here
-  const isbn=req.params.isbn;
-
-  return res.status(300).json(JSON.stringify(books[isbn]));
- });
+public_users.get('/isbn/:isbn',async (req, res) => {
+    try {
+      const isbn = req.params.isbn;
+      return res.status(200).json(books[isbn]);
+    } catch (error) {
+      return res.status(500).json({ message: "Internal server error" });
+    }
+  });
   
 // Get book details based on author
-public_users.get('/author/:author',function (req, res) {
-  //Write your code here
-  const author=req.params.author;
-  const ans={};
-  for (book in books){
-       if(books[book].author===author)
-       ans[book]=books[book];
-  }
-  
-  return res.status(300).json(ans);
-});
+public_users.get('/author/:author', async (req, res) => {
+    try {
+      const author = req.params.author;
+      const ans = {};
+      for (const book in books) {
+        if (books[book].author === author) {
+          ans[book] = books[book];
+        }
+      }
+      return res.status(200).json(ans);
+    } catch (error) {
+      return res.status(500).json({ message: "Internal server error" });
+    }
+  });
 
 // Get all books based on title
-public_users.get('/title/:title',function (req, res) {
-  //Write your code here
-  const ans={};
-  const title=req.params.title;
-  for (book in books){
-    if(books[book].title===title)
-    ans[book]=books[book];
-}
-  return res.status(300).json(ans);
-});
+public_users.get('/title/:title', async (req, res) => {
+    try {
+      const title = req.params.title;
+      const ans = {};
+      for (const book in books) {
+        if (books[book].title === title) {
+          ans[book] = books[book];
+        }
+      }
+      return res.status(200).json(ans);
+    } catch (error) {
+      return res.status(500).json({ message: "Internal server error" });
+    }
+  });
 
 //  Get book review
 public_users.get('/review/:isbn',function (req, res) {
